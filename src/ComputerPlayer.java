@@ -1,21 +1,20 @@
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 
 /**
  * Created by Mateusz on 18.11.2016.
  * Project ComputerPlayer
- *
- * Program zakłada że dane wysyłane przez program sędziujący są poprawne, można powiedzieć że jest to nienajlepsze
- * założenie, ale z jednej strony jest to tylko program demonstacyjno-testujący, a z drugiej, protokół i tak nie przewiduje
- * możliwości, aby program grający przekazał programowi sędziującemu informacji o jakichkolwiek błędach
  */
 public class ComputerPlayer {
     public static void main(String args[]) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
             br.readLine();
-            System.out.println("Pong");
-            int size = Integer.parseInt(br.readLine());
+            System.out.println("PONG");
+            size = Integer.parseInt(br.readLine());
             board = new int[size][size];
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
@@ -24,12 +23,12 @@ public class ComputerPlayer {
             }
             while(true) {
                 String inputText = br.readLine();
-                String zaczynaj = "Zaczynaj";
+                String zaczynaj = "ZACZYNAJ";
                 if(!inputText.equals(zaczynaj)) {
-                    int previousx1 = Integer.parseInt(inputText.split(" ")[0]);
-                    int previousy1 = Integer.parseInt(inputText.split(" ")[1]);
-                    int previousx2 = Integer.parseInt(inputText.split(" ")[2]);
-                    int previousy2 = Integer.parseInt(inputText.split(" ")[3]);
+                    int previousx1 = Integer.parseInt(inputText.split(" ")[0])-1;
+                    int previousy1 = Integer.parseInt(inputText.split(" ")[1])-1;
+                    int previousx2 = Integer.parseInt(inputText.split(" ")[2])-1;
+                    int previousy2 = Integer.parseInt(inputText.split(" ")[3])-1;
                     board[previousx1][previousy1] = 1;
                     board[previousx2][previousy2] = 1;
                 }
@@ -75,14 +74,18 @@ public class ComputerPlayer {
                 }
                 board[x1][y1]=1;
                 board[x2][y2]=1;
-                System.out.println(x1 + " " + y1 + " " + x2 + " " + y2);
+                x1+=1;
+                y1+=1;
+                x2+=1;
+                y2+=1;
+                System.out.println(x1 + " " + y1+ " " + x2+ " "+y2);
             }
         }
-        catch (Exception ignored) {
+        catch (Exception e) {
 
         }
     }
-    private static boolean[] possibleDirections(int x, int y) {
+    public static boolean[] possibleDirections(int x, int y) {
         boolean result[] = new boolean[4];
         result[0] = false;
         result[1] = false;
@@ -115,4 +118,5 @@ public class ComputerPlayer {
         return result;
     }
     private static int[][] board;
+    private static int size;
 }
